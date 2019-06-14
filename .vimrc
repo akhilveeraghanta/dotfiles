@@ -10,6 +10,7 @@ Plug 'junegunn/seoul256.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } 
 Plug 'iamcco/mathjax-support-for-mkdp'
 Plug 'iamcco/markdown-preview.vim'
+Plug 'terryma/vim-multiple-cursors'
 Plug 'xolox/vim-easytags', {'do':'sudo apt-get install exuberant-ctags'}
 Plug 'xolox/vim-misc'
 Plug 'SirVer/ultisnips'
@@ -36,6 +37,7 @@ call plug#end()
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                    SETS                                    "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set term=screen-256color
 set nu
 set relativenumber
 set clipboard=unnamed
@@ -75,6 +77,7 @@ xnoremap <leader>y "+y
 
 nnoremap <leader>y :let g:ycm_auto_trigger=0<CR>
 nnoremap <leader>Y :let g:ycm_auto_trigger=1<CR> 
+nnoremap <leader>R :!ls<CR>
 
 nmap ]c <Plug>GitGutterNextHunk
 nmap [c <Plug>GitGutterPrevHunk
