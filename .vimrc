@@ -6,32 +6,25 @@ Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
-Plug 'junegunn/seoul256.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } 
 Plug 'iamcco/mathjax-support-for-mkdp'
 Plug 'iamcco/markdown-preview.vim'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'xolox/vim-easytags', {'do':'sudo apt-get install exuberant-ctags'}
-Plug 'xolox/vim-misc'
 Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 Plug 'Valloric/YouCompleteMe'
 Plug 'w0rp/ale'
-Plug 'itchyny/lightline.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'vim-scripts/genutils'
 Plug 'hellosputnik/vim-plugin' 
-Plug 'akhilveeraghanta/gethelp'
-Plug 'jinhkim/vim-snippets', { 'branch': 'work_snippets' }
+Plug 'akhilveeraghanta/ctx-bazel'
 Plug 'gotcha/vimpdb'
-Plug 'fcpg/vim-fahrenheit'
 Plug 'majutsushi/tagbar'
 Plug 'plasticboy/vim-markdown'
 Plug 'godlygeek/tabular'
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'mnpk/vim-jira-complete'
-Plug 'tpope/vim-dispatch'
-Plug 'janko/vim-test'
-Plug 'jgdavey/tslime.vim'
+Plug 'uarun/vim-protobuf'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'cormacrelf/vim-colors-github'
 call plug#end()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -45,6 +38,11 @@ set hlsearch
 set incsearch
 set autoread
 set fdo-=search
+if exists('+termguicolors')
+    let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
+    set termguicolors
+endif
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -56,16 +54,10 @@ let g:UltiSnipsJumpForwardTrigger="<C-j>"
 let g:UltiSnipsJumpBackwardTrigger="<C-k>"
 let vim_markdown_preview_hotkey='<C-m>'
 let g:ultisnips_python_style="sphinx"
-let g:jiracomplete_url = 'http://ecoation.atlassian.net/'
-let g:jiracomplete_username = 'akhil@ecoation.com'
+let g:easytags_async="true"
+let g:ycm_use_clang=1
 
-let test#strategy = {
-  \ 'nearest': 'dispatch',
-  \ 'file':    'vimterminal',
-  \ 'suite':   'basic',
-\}
 
-imap <silent> <unique> <leader>j <Plug>JiraComplete
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                   REMAPS                                   "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -81,8 +73,8 @@ nnoremap <leader>R :!ls<CR>
 
 nmap ]c <Plug>GitGutterNextHunk
 nmap [c <Plug>GitGutterPrevHunk
-nmap <leader>hs <Plug>GitGutterStageHunk
-nmap <leader>hu <Plug>GitGutterUndoHunk
+nmap <leader>hs <Plug>(GitGutterStageHunk)
+nmap <leader>hu <Plug>(GitGutterUndoHunk)
 
 nmap <leader>n :NERDTreeToggle<cr>
 nmap <leader>f :FZF<cr>
@@ -128,8 +120,15 @@ set guioptions-=T " turn off toolbar
 set guioptions-=L " turn off menu bar
 set backspace=indent,eol,start
 set laststatus=2  " always display the status line
-set background=dark
-colorscheme PaperColor
+
+" in your .vimrc or init.vim
+colorscheme github
+ 
+" if you use airline / lightline
+let g:airline_theme = "github"
+let g:lightline = { 'colorscheme': 'github' }
+
+set background=light
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                 FORMATTERS                                 "
@@ -181,7 +180,7 @@ if has("cscope")
     " add any cscope database in current directory
     if filereadable("cscope.out")
         cs add cscope.out
-    " else add the database pointed to by environment variable
+        " else add the database pointed to by environment variable
     elseif $CSCOPE_DB != ""
         cs add $CSCOPE_DB
     endif
@@ -302,5 +301,16 @@ if has("cscope")
     "set ttimeoutlen=100
 
 endif
-
-
+let g:statusline_cscope_flag = ""
+set statusline=[%n]%<%f\ %h%m%r\ %=\
+set statusline+=%(\ [%{g:statusline_cscope_flag}]\ \ \ %)
+set statusline+=%-14.(%l,%c%V%)\ %P
+function! Cscope_dynamic_update_hook(updating)
+    if a:updating
+        let g:statusline_cscope_flag = "C"
+    else
+        let g:statusline_cscope_flag = ""
+    endif
+    execute "redrawstatus!"
+endfunction
+call Cscope_dynamic_update_hook(0)
