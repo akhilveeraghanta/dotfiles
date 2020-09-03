@@ -1,0 +1,25 @@
+bind h select-pane -L
+bind j select-pane -D
+bind k select-pane -U
+bind l select-pane -R
+set-environment -g TMUX_PLUGIN_MANAGER_PATH '~/.tmux/plugins/'
+
+set -g mouse on
+
+# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
+run -b '~/.tmux/plugins/tpm/tpm'
+set -g status-right '#{cpu_bg_color} CPU: #{cpu_icon} #{cpu_percentage} | %a %h-%d %H:%M '
+
+bind P paste-buffer
+set-window-option -g mode-keys vi
+
+# List of plugins
+set -g @tpm_plugins '           \
+   tmux-plugins/tpm             \
+   tmux-plugins/tmux-sensible   \
+   tmux-plugins/tmux-resurrect  \
+   jimeh/tmux-themepack \
+'
+
+# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
+run '~/.tmux/plugins/tpm/tpm'
