@@ -15,8 +15,6 @@ Plug 'Valloric/YouCompleteMe'
 Plug 'w0rp/ale'
 Plug 'airblade/vim-gitgutter'
 Plug 'vim-scripts/genutils'
-Plug 'hellosputnik/vim-plugin' 
-Plug 'akhilveeraghanta/ctx-bazel'
 Plug 'gotcha/vimpdb'
 Plug 'majutsushi/tagbar'
 Plug 'plasticboy/vim-markdown'
@@ -25,12 +23,12 @@ Plug 'uarun/vim-protobuf'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'cormacrelf/vim-colors-github'
+Plug 'rakr/vim-one'
 call plug#end()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                    SETS                                    "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set term=screen-256color
 set nu
 set relativenumber
 set clipboard=unnamed
@@ -53,6 +51,7 @@ let g:UltiSnipsExpandTrigger="<C-j>"
 let g:UltiSnipsJumpForwardTrigger="<C-j>"
 let g:UltiSnipsJumpBackwardTrigger="<C-k>"
 let vim_markdown_preview_hotkey='<C-m>'
+let g:wtf_pedantic_guicolors = 1
 let g:ultisnips_python_style="sphinx"
 let g:easytags_async="true"
 let g:ycm_use_clang=1
@@ -122,13 +121,13 @@ set backspace=indent,eol,start
 set laststatus=2  " always display the status line
 
 " in your .vimrc or init.vim
-colorscheme github
+colorscheme one
  
 " if you use airline / lightline
-let g:airline_theme = "github"
-let g:lightline = { 'colorscheme': 'github' }
+let g:airline_theme = "one"
+let g:lightline = { 'colorscheme': 'one' }
 
-set background=light
+set background=dark
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                 FORMATTERS                                 "
@@ -314,3 +313,5 @@ function! Cscope_dynamic_update_hook(updating)
     execute "redrawstatus!"
 endfunction
 call Cscope_dynamic_update_hook(0)
+
+
