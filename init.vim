@@ -1,4 +1,4 @@
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                  PLUGINS                                   "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.vim/plugged')
@@ -11,7 +11,7 @@ Plug 'iamcco/mathjax-support-for-mkdp'
 Plug 'iamcco/markdown-preview.vim'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-Plug 'Valloric/YouCompleteMe'
+"Plug 'Valloric/YouCompleteMe'
 Plug 'w0rp/ale'
 Plug 'airblade/vim-gitgutter'
 Plug 'vim-scripts/genutils'
@@ -24,6 +24,10 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'cormacrelf/vim-colors-github'
 Plug 'rakr/vim-one'
+Plug 'neoclide/coc.nvim'
+Plug 'jackguo380/vim-lsp-cxx-highlight'
+Plug 'morhetz/gruvbox'
+Plug 'vim-scripts/a.vim'
 call plug#end()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -75,8 +79,10 @@ nmap [c <Plug>GitGutterPrevHunk
 nmap <leader>hs <Plug>(GitGutterStageHunk)
 nmap <leader>hu <Plug>(GitGutterUndoHunk)
 
+imap jj <Esc>
 nmap <leader>n :NERDTreeToggle<cr>
 nmap <leader>f :FZF<cr>
+nmap <leader>a :A<cr>
 nmap <leader>p :put +<cr>
 nmap <leader>mkv :mkview<cr>
 nmap <leader>lv :loadview<cr>
@@ -85,6 +91,7 @@ nmap <leader>tr :vsplit<bar>:terminal ++curwin<cr>
 nmap <leader>r :registers<cr>
 nmap <leader>t :TagbarToggle<cr>
 nmap <leader>u :e!<cr>
+nmap <leader>q :qa!<cr>
 nmap <leader>mp :MarkdownPreview<cr>
 nmap <leader>mps :MarkdownPreviewStop<cr>
 nmap <leader>g :Goyo<cr>
@@ -121,11 +128,11 @@ set backspace=indent,eol,start
 set laststatus=2  " always display the status line
 
 " in your .vimrc or init.vim
-colorscheme one
+colorscheme gruvbox
  
 " if you use airline / lightline
-let g:airline_theme = "one"
-let g:lightline = { 'colorscheme': 'one' }
+let g:airline_theme = "gruvbox"
+let g:lightline = { 'colorscheme': 'gruvbox' }
 
 set background=dark
 
@@ -314,4 +321,80 @@ function! Cscope_dynamic_update_hook(updating)
 endfunction
 call Cscope_dynamic_update_hook(0)
 
+function! HasPlugin(plugin)
+    return isdirectory(expand("~/.vim/plugged/" . a:plugin))
+endfunction
 
+if HasPlugin("coc.nvim")
+    " use <tab> for trigger completion and navigate to the next complete item
+    function! s:check_back_space() abort
+      let col = col('.') - 1
+      return !col || getline('.')[col - 1]  =~ '\s'
+    endfunction
+
+    inoremap <silent><expr> <Tab>
+          \ pumvisible() ? "\<C-n>" :
+          \ <SID>check_back_space() ? "\<Tab>" :
+          \ coc#refresh()
+
+    " use shift-<tab> to navigate completion backwards
+    inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+    " use <cr> to confirm completion
+    inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+    " close preview window when completion is done
+    autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+
+    au CursorHold * sil call CocActionAsync('highlight')
+    au CursorHoldI * sil call CocActionAsync('showSignatureHelp')
+
+    " Use `[g` and `]g` to navigate diagnostics
+    " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+    nmap <silent> [g <Plug>(coc-diagnostic-prev)
+    nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+    " GoTo code navigation.
+    nmap <silent> gd <Plug>(coc-definition)
+    nmap <silent> gy <Plug>(coc-type-definition)
+    nmap <silent> gi <Plug>(coc-implementation)
+    nmap <silent> gr <Plug>(coc-references)
+
+    " Use K to show documentation in preview window.
+    nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+    function! s:show_documentation()
+      if (index(['vim','help'], &filetype) >= 0)
+        execute 'h '.expand('<cword>')
+      else
+        call CocAction('doHover')
+      endif
+    endfunction
+
+    " Symbol renaming.
+    nmap <leader>rn <Plug>(coc-rename)
+
+    " Pipenv complains loudly
+    let $PIPENV_IGNORE_VIRTUALENVS=1
+
+    " Formatting selected code.
+    xmap <silent>=  <Plug>(coc-format-selected)
+    nmap <silent>=  <Plug>(coc-format-selected)
+
+    " Apply AutoFix to problem on the current line.
+    nmap <leader>qf  <Plug>(coc-fix-current)
+
+    " Map function and class text objects
+    " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+    xmap if <Plug>(coc-funcobj-i)
+    omap if <Plug>(coc-funcobj-i)
+    xmap af <Plug>(coc-funcobj-a)
+    omap af <Plug>(coc-funcobj-a)
+    xmap ic <Plug>(coc-classobj-i)
+    omap ic <Plug>(coc-classobj-i)
+    xmap ac <Plug>(coc-classobj-a)
+    omap ac <Plug>(coc-classobj-a)
+    
+    " Add `:Format` command to format current buffer.
+    command! -nargs=0 Format :call CocAction('format')
+endif
