@@ -9,11 +9,10 @@ Plug 'tpope/vim-fugitive'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } 
 Plug 'iamcco/mathjax-support-for-mkdp'
 Plug 'iamcco/markdown-preview.vim'
-Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-Plug 'w0rp/ale'
 Plug 'airblade/vim-gitgutter'
 Plug 'vim-scripts/genutils'
+Plug 'SirVer/ultisnips'
 Plug 'gotcha/vimpdb'
 Plug 'majutsushi/tagbar'
 Plug 'plasticboy/vim-markdown'
@@ -21,12 +20,13 @@ Plug 'godlygeek/tabular'
 Plug 'uarun/vim-protobuf'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'cormacrelf/vim-colors-github'
 Plug 'rakr/vim-one'
 Plug 'neoclide/coc.nvim'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'morhetz/gruvbox'
 Plug 'vim-scripts/a.vim'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'ryanoasis/vim-devicons'
 call plug#end()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -49,9 +49,6 @@ endif
 "                                    LETS                                    "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let mapleader = ","
-let g:UltiSnipsExpandTrigger="<C-j>"
-let g:UltiSnipsJumpForwardTrigger="<C-j>"
-let g:UltiSnipsJumpBackwardTrigger="<C-k>"
 let vim_markdown_preview_hotkey='<C-m>'
 let g:wtf_pedantic_guicolors = 1
 let g:ultisnips_python_style="sphinx"
@@ -77,7 +74,7 @@ nmap <leader>hs <Plug>(GitGutterStageHunk)
 nmap <leader>hu <Plug>(GitGutterUndoHunk)
 
 imap jj <Esc>
-nmap <leader>n :NERDTreeToggle<cr>
+nmap <leader>n :call ToggleNerdTree()<CR>
 nmap <leader>f :FZF<cr>
 nmap <leader>a :A<cr>
 nmap <leader>p :put +<cr>
@@ -91,7 +88,6 @@ nmap <leader>u :e!<cr>
 nmap <leader>q :qa!<cr>
 nmap <leader>mp :MarkdownPreview<cr>
 nmap <leader>mps :MarkdownPreviewStop<cr>
-nmap <leader>g :Goyo<cr>
 nmap <leader>d :YcmCompleter GetDoc<cr>
 nmap <leader>ym :set mouse=""<cr>
 nmap <leader>ym :set mouse=a<cr>
@@ -127,6 +123,7 @@ set laststatus=2  " always display the status line
 colorscheme gruvbox
 let g:airline_theme = "gruvbox"
 let g:lightline = { 'colorscheme': 'gruvbox' }
+let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 set background=dark
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -135,6 +132,29 @@ set background=dark
 autocmd FileType python setlocal ts=4 sts=4 sw=4 formatoptions=tcroq equalprg=autopep8\ -
 autocmd VimResized * if exists('#goyo') | exe "normal \<c-w>=" | endif
 set nofoldenable    " disable folding
+
+" Check if NERDTree is open or active
+function! IsNERDTreeOpen()
+  return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
+endfunction
+
+" Call NERDTreeFind iff NERDTree is active, current window contains a modifiable
+" file, and we're not in vimdiff
+function! SyncTree()
+  if &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff
+    NERDTreeFind
+    wincmd p
+  endif
+endfunction
+
+" Highlight currently open buffer in NERDTree
+autocmd BufRead * call SyncTree()
+
+function! ToggleNerdTree()
+  set eventignore=BufEnter
+  NERDTreeToggle
+  set eventignore=
+endfunction
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                    CoC                                     "
@@ -216,3 +236,21 @@ if HasPlugin("coc.nvim")
     " Add `:Format` command to format current buffer.
     command! -nargs=0 Format :call CocAction('format')
 endif
+
+" Use <C-l> for trigger snippet expand.
+imap <C-l> <Plug>(coc-snippets-expand)
+
+" Use <C-j> for select text for visual placeholder of snippet.
+vmap <C-j> <Plug>(coc-snippets-select)
+
+" Use <C-j> for jump to next placeholder, it's default of coc.nvim
+let g:coc_snippet_next = '<c-j>'
+
+" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+let g:coc_snippet_prev = '<c-k>'
+
+" Use <C-j> for both expand and jump (make expand higher priority.)
+imap <C-j> <Plug>(coc-snippets-expand-jump)
+
+" Use <leader>x for convert visual selected code to snippet
+xmap <leader>x  <Plug>(coc-convert-snippet)
