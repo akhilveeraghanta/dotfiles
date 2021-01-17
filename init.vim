@@ -27,6 +27,7 @@ Plug 'morhetz/gruvbox'
 Plug 'vim-scripts/a.vim'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'ryanoasis/vim-devicons'
+Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release/remote', 'do': ':UpdateRemotePlugins' }
 call plug#end()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -75,7 +76,7 @@ nmap <leader>hu <Plug>(GitGutterUndoHunk)
 
 imap jj <Esc>
 nmap <leader>n :call ToggleNerdTree()<CR>
-nmap <leader>f :FZF<cr>
+nmap <leader>f :CocCommand fzf-preview.ProjectFiles<CR>
 nmap <leader>a :A<cr>
 nmap <leader>p :put +<cr>
 nmap <leader>mkv :mkview<cr>
@@ -98,7 +99,7 @@ nmap <leader>tl :TestLast<CR>
 nmap <leader>tv :TestVisit<CR>
 
 "Vim fugitive remaps
-nmap <leader>gs :Gstatus<CR><C-w>=<C-w>30-
+nmap <leader>g :CocCommand fzf-preview.GitActions<CR>
 set splitbelow
 
 command WQ wq
@@ -133,22 +134,20 @@ autocmd FileType python setlocal ts=4 sts=4 sw=4 formatoptions=tcroq equalprg=au
 autocmd VimResized * if exists('#goyo') | exe "normal \<c-w>=" | endif
 set nofoldenable    " disable folding
 
-" Check if NERDTree is open or active
-function! IsNERDTreeOpen()
+" returns true iff is NERDTree open/active
+function! IsNTOpen()        
   return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
 endfunction
 
-" Call NERDTreeFind iff NERDTree is active, current window contains a modifiable
-" file, and we're not in vimdiff
+" calls NERDTreeFind iff NERDTree is active, current window contains a modifiable file, and we're not in vimdiff
 function! SyncTree()
-  if &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff
+  if &modifiable && IsNTOpen() && strlen(expand('%')) > 0 && !&diff
     NERDTreeFind
     wincmd p
   endif
 endfunction
 
-" Highlight currently open buffer in NERDTree
-autocmd BufRead * call SyncTree()
+autocmd BufEnter * call SyncTree()
 
 function! ToggleNerdTree()
   set eventignore=BufEnter
