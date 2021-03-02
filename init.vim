@@ -6,6 +6,7 @@ Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } 
 Plug 'iamcco/mathjax-support-for-mkdp'
 Plug 'iamcco/markdown-preview.vim'
@@ -15,11 +16,10 @@ Plug 'vim-scripts/genutils'
 Plug 'SirVer/ultisnips'
 Plug 'gotcha/vimpdb'
 Plug 'majutsushi/tagbar'
+Plug 'tpope/vim-abolish'
 Plug 'plasticboy/vim-markdown'
 Plug 'godlygeek/tabular'
 Plug 'uarun/vim-protobuf'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'rakr/vim-one'
 Plug 'neoclide/coc.nvim'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
@@ -27,6 +27,7 @@ Plug 'morhetz/gruvbox'
 Plug 'vim-scripts/a.vim'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'ryanoasis/vim-devicons'
+Plug 'puremourning/vimspector'
 Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release/remote', 'do': ':UpdateRemotePlugins' }
 call plug#end()
 
@@ -40,6 +41,7 @@ set hlsearch
 set incsearch
 set autoread
 set fdo-=search
+set laststatus=0
 if exists('+termguicolors')
     let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
     let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
@@ -51,7 +53,7 @@ endif
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let mapleader = ","
 let vim_markdown_preview_hotkey='<C-m>'
-let g:wtf_pedantic_guicolors = 1
+let g:UltiSnipsExpandTrigger='<C-a>'
 let g:ultisnips_python_style="sphinx"
 let g:easytags_async="true"
 let g:ycm_use_clang=1
@@ -76,7 +78,7 @@ nmap <leader>hu <Plug>(GitGutterUndoHunk)
 
 imap jj <Esc>
 nmap <leader>n :call ToggleNerdTree()<CR>
-nmap <leader>f :CocCommand fzf-preview.ProjectFiles<CR>
+nmap <leader>f :FZF<cr>
 nmap <leader>a :A<cr>
 nmap <leader>p :put +<cr>
 nmap <leader>mkv :mkview<cr>
@@ -122,8 +124,7 @@ set backspace=indent,eol,start
 set laststatus=2  " always display the status line
 
 colorscheme gruvbox
-let g:airline_theme = "gruvbox"
-let g:lightline = { 'colorscheme': 'gruvbox' }
+let g:gruvbox_contrast_dark="hard"
 let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 set background=dark
 
@@ -131,7 +132,6 @@ set background=dark
 "                                 FORMATTERS                                 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 autocmd FileType python setlocal ts=4 sts=4 sw=4 formatoptions=tcroq equalprg=autopep8\ -
-autocmd VimResized * if exists('#goyo') | exe "normal \<c-w>=" | endif
 set nofoldenable    " disable folding
 
 " returns true iff is NERDTree open/active
@@ -169,8 +169,8 @@ if HasPlugin("coc.nvim")
       return !col || getline('.')[col - 1]  =~ '\s'
     endfunction
 
-    inoremap <silent><expr> <Tab>
-          \ pumvisible() ? "\<C-n>" :
+        inoremap <silent><expr> <Tab>
+              \ pumvisible() ? "\<C-n>" :
           \ <SID>check_back_space() ? "\<Tab>" :
           \ coc#refresh()
 
@@ -253,3 +253,5 @@ imap <C-j> <Plug>(coc-snippets-expand-jump)
 
 " Use <leader>x for convert visual selected code to snippet
 xmap <leader>x  <Plug>(coc-convert-snippet)
+
+let g:vimspector_enable_mappings = 'HUMAN'
