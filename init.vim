@@ -11,12 +11,14 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'iamcco/mathjax-support-for-mkdp'
 Plug 'iamcco/markdown-preview.vim'
 Plug 'honza/vim-snippets'
+Plug 'endel/vim-github-colorscheme'
 Plug 'airblade/vim-gitgutter'
 Plug 'vim-scripts/genutils'
 Plug 'SirVer/ultisnips'
 Plug 'gotcha/vimpdb'
 Plug 'majutsushi/tagbar'
 Plug 'tpope/vim-abolish'
+Plug 'tomasiser/vim-code-dark'
 Plug 'plasticboy/vim-markdown'
 Plug 'godlygeek/tabular'
 Plug 'uarun/vim-protobuf'
@@ -28,6 +30,8 @@ Plug 'vim-scripts/a.vim'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'ryanoasis/vim-devicons'
 Plug 'puremourning/vimspector'
+Plug 'folke/tokyonight.nvim'
+Plug 'sjl/badwolf'
 Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release/remote', 'do': ':UpdateRemotePlugins' }
 call plug#end()
 
@@ -123,8 +127,8 @@ set guioptions-=L " turn off menu bar
 set backspace=indent,eol,start
 set laststatus=2  " always display the status line
 
-colorscheme gruvbox
-let g:gruvbox_contrast_dark="hard"
+colorscheme badwolf
+let g:airline_theme = 'github'
 let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 set background=dark
 
