@@ -7,18 +7,18 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } 
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 Plug 'iamcco/mathjax-support-for-mkdp'
 Plug 'iamcco/markdown-preview.vim'
 Plug 'honza/vim-snippets'
-Plug 'endel/vim-github-colorscheme'
+Plug 'kamwitsta/flatwhite-vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'vim-scripts/genutils'
 Plug 'SirVer/ultisnips'
 Plug 'gotcha/vimpdb'
 Plug 'majutsushi/tagbar'
 Plug 'tpope/vim-abolish'
-Plug 'tomasiser/vim-code-dark'
 Plug 'plasticboy/vim-markdown'
 Plug 'godlygeek/tabular'
 Plug 'uarun/vim-protobuf'
@@ -30,14 +30,21 @@ Plug 'vim-scripts/a.vim'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'ryanoasis/vim-devicons'
 Plug 'puremourning/vimspector'
-Plug 'folke/tokyonight.nvim'
 Plug 'sjl/badwolf'
+Plug 'kyazdani42/nvim-web-devicons' " Recommended (for coloured icons)
 Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release/remote', 'do': ':UpdateRemotePlugins' }
 call plug#end()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                    SETS                                    "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+hi VertSplit ctermbg=NONE guibg=NONE
+hi StatusLine ctermfg=NONE ctermbg=NONE guibg=NONE guifg=NONE   
+hi StatusLineNC ctermfg=NONE ctermbg=NONE guibg=NONE guifg=NONE
+set statusline=-        " hide file name in statusline
+set fillchars=stl:\     " fill active window's statusline with -
+set fillchars+=stlnc:\  " also fill inactive windows
+set fillchars+=vert:\  " add a bar for vertical splits
 set nu
 set relativenumber
 set clipboard=unnamed
@@ -93,6 +100,8 @@ nmap <leader>r :registers<cr>
 nmap <leader>t :TagbarToggle<cr>
 nmap <leader>u :e!<cr>
 nmap <leader>q :qa!<cr>
+nmap <leader>bn :bnext<cr>
+nmap <leader>bp :bprev<cr>
 nmap <leader>mp :MarkdownPreview<cr>
 nmap <leader>mps :MarkdownPreviewStop<cr>
 nmap <leader>d :YcmCompleter GetDoc<cr>
@@ -127,10 +136,11 @@ set guioptions-=L " turn off menu bar
 set backspace=indent,eol,start
 set laststatus=2  " always display the status line
 
-colorscheme badwolf
-let g:airline_theme = 'github'
+colorscheme gruvbox
 let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 set background=dark
+let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
+let $FZF_DEFAULT_OPTS='--reverse'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                 FORMATTERS                                 "
