@@ -2,6 +2,7 @@
 "                                  PLUGINS                                   "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.vim/plugged')
+Plug 'github/copilot.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-surround'
@@ -136,7 +137,7 @@ set guioptions-=L " turn off menu bar
 set backspace=indent,eol,start
 set laststatus=2  " always display the status line
 
-colorscheme gruvbox
+colorscheme ayu
 let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 set background=dark
 let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
