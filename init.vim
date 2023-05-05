@@ -31,7 +31,6 @@ Plug 'rakr/vim-one'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'morhetz/gruvbox'
 Plug 'vim-scripts/a.vim'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'ryanoasis/vim-devicons'
 Plug 'puremourning/vimspector'
 Plug 'sjl/badwolf'
@@ -117,6 +116,12 @@ nmap <leader>ts :TestSuite<CR>
 nmap <leader>tl :TestLast<CR>
 nmap <leader>tv :TestVisit<CR>
 
+" smart way to move between windows
+map <C-j> <C-w>j
+map <C-k> <C-w>k
+map <C-h> <C-w>h
+map <C-l> <C-w>l
+
 "Vim fugitive remaps
 nmap <leader>g :CocCommand fzf-preview.GitActions<CR>
 set splitbelow
@@ -126,6 +131,15 @@ command Wq wq
 command W w
 command Q q
 command Qa qa
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                          Convenience functions                             "
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+augroup autosave
+    autocmd!
+    autocmd InsertLeave * if mode() !=# 'c' | silent! wall | echo "File Saved" | endif
+augroup END
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                   THEMES                                   "
