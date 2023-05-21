@@ -4,6 +4,7 @@
 call plug#begin('~/.vim/plugged')
 Plug 'projekt0n/github-nvim-theme'
 Plug 'neoclide/coc.nvim'
+Plug 'rust-lang/rust.vim'
 Plug 'github/copilot.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'rhysd/vim-clang-format'
@@ -13,12 +14,14 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'iamcco/mathjax-support-for-mkdp'
 Plug 'iamcco/markdown-preview.vim'
 Plug 'honza/vim-snippets'
 Plug 'kamwitsta/flatwhite-vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'ayu-theme/ayu-vim'
+Plug 'wikitopian/hardmode'
 Plug 'vim-scripts/genutils'
 Plug 'SirVer/ultisnips'
 Plug 'gotcha/vimpdb'
@@ -71,6 +74,7 @@ let g:UltiSnipsExpandTrigger='<C-a>'
 let g:ultisnips_python_style="sphinx"
 let g:easytags_async="true"
 let g:ycm_use_clang=1
+let g:rustfmt_autosave = 1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                   REMAPS                                   "
@@ -154,7 +158,7 @@ set guioptions-=L " turn off menu bar
 set backspace=indent,eol,start
 set laststatus=2  " always display the status line
 
-colorscheme ayu
+colorscheme github_dark
 let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 set background=dark
 let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
