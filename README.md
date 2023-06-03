@@ -8,11 +8,12 @@ Rough setup guidlines:
 Checkout repo into wherever you keep repos
 
 Copy init.vim to ~/.config/nvim/
-Install neovim using snap (v0.9.0)
-Install vimplug for neovim
+- Install neovim using snap (v0.9.0)
+- Install vimplug for neovim
+```
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
+```
 Install nodejs
 you need to run sudo sh first
 - curl -sL https://deb.nodesource.com/setup_16.x | bash -
