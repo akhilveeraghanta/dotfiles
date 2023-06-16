@@ -3,7 +3,7 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.vim/plugged')
 Plug 'projekt0n/github-nvim-theme'
-Plug 'neoclide/coc.nvim'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'rust-lang/rust.vim'
 Plug 'github/copilot.vim'
 Plug 'scrooloose/nerdtree'
@@ -39,6 +39,7 @@ Plug 'puremourning/vimspector'
 Plug 'sjl/badwolf'
 Plug 'kyazdani42/nvim-web-devicons' " Recommended (for coloured icons)
 Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release/remote', 'do': ':UpdateRemotePlugins' }
+Plug 'kevinhwang91/rnvimr'
 call plug#end()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -291,3 +292,7 @@ imap <C-j> <Plug>(coc-snippets-expand-jump)
 xmap <leader>x  <Plug>(coc-convert-snippet)
 
 let g:vimspector_enable_mappings = 'HUMAN'
+
+" Make Ranger replace Netrw and be the file explorer
+let g:rnvimr_enable_ex = 1
+let g:NERDTreeHijackNetrw = 0

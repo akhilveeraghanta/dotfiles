@@ -23,6 +23,9 @@ Make sure to follow the instructions to install node that print after the script
 Install yarn
 - npm install --global yarn
 
+Install ranger
+Setup Ranger by moving rc.conf & commands.py to ~/.config/ranger/
+
 Now open vim and run 
 :PlugInstall
 
