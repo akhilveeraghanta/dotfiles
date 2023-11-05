@@ -2,44 +2,30 @@
 "                                  PLUGINS                                   "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.vim/plugged')
-Plug 'projekt0n/github-nvim-theme'
+Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'rust-lang/rust.vim'
 Plug 'github/copilot.vim'
 Plug 'scrooloose/nerdtree'
-Plug 'rhysd/vim-clang-format'
 Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-abolish'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'iamcco/mathjax-support-for-mkdp'
 Plug 'iamcco/markdown-preview.vim'
-Plug 'honza/vim-snippets'
-Plug 'kamwitsta/flatwhite-vim'
 Plug 'airblade/vim-gitgutter'
-Plug 'ayu-theme/ayu-vim'
-Plug 'wikitopian/hardmode'
-Plug 'vim-scripts/genutils'
-Plug 'SirVer/ultisnips'
-Plug 'gotcha/vimpdb'
 Plug 'majutsushi/tagbar'
-Plug 'tpope/vim-abolish'
 Plug 'plasticboy/vim-markdown'
 Plug 'godlygeek/tabular'
 Plug 'uarun/vim-protobuf'
-Plug 'rakr/vim-one'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
-Plug 'morhetz/gruvbox'
 Plug 'vim-scripts/a.vim'
 Plug 'ryanoasis/vim-devicons'
-Plug 'puremourning/vimspector'
-Plug 'sjl/badwolf'
 Plug 'kyazdani42/nvim-web-devicons' " Recommended (for coloured icons)
 Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release/remote', 'do': ':UpdateRemotePlugins' }
-Plug 'kevinhwang91/rnvimr'
 call plug#end()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -112,7 +98,6 @@ nmap <leader>bn :bnext<cr>
 nmap <leader>bp :bprev<cr>
 nmap <leader>mp :MarkdownPreview<cr>
 nmap <leader>mps :MarkdownPreviewStop<cr>
-nmap <leader>d :YcmCompleter GetDoc<cr>
 nmap <leader>ym :set mouse=""<cr>
 nmap <leader>ym :set mouse=a<cr>
 nmap <leader>tn :TestNearest<CR>
@@ -127,8 +112,7 @@ map <C-k> <C-w>k
 map <C-h> <C-w>h
 map <C-l> <C-w>l
 
-"Vim fugitive remaps
-nmap <leader>g :CocCommand fzf-preview.GitActions<CR>
+" Vim fugitive remaps
 set splitbelow
 
 command WQ wq
@@ -136,10 +120,12 @@ command Wq wq
 command W w
 command Q q
 command Qa qa
+command QA qa
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                          Convenience functions                             "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 augroup autosave
     autocmd!
     autocmd InsertLeave * if mode() !=# 'c' | silent! wall | echo "File Saved" | endif
@@ -159,7 +145,7 @@ set guioptions-=L " turn off menu bar
 set backspace=indent,eol,start
 set laststatus=2  " always display the status line
 
-colorscheme github_dark
+colorscheme default
 let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 set background=dark
 let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
@@ -292,7 +278,3 @@ imap <C-j> <Plug>(coc-snippets-expand-jump)
 xmap <leader>x  <Plug>(coc-convert-snippet)
 
 let g:vimspector_enable_mappings = 'HUMAN'
-
-" Make Ranger replace Netrw and be the file explorer
-let g:rnvimr_enable_ex = 1
-let g:NERDTreeHijackNetrw = 0
