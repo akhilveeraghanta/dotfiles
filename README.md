@@ -16,7 +16,10 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
 ```
 Install nodejs
 you need to run sudo sh first
-- curl -sL https://deb.nodesource.com/setup_16.x | bash -
+```
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - &&\
+sudo apt-get install -y nodejs
+```
 
 Make sure to follow the instructions to install node that print after the script runs
 
