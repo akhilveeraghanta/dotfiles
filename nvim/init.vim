@@ -24,6 +24,8 @@ Plug 'uarun/vim-protobuf'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'vim-scripts/a.vim'
 Plug 'ryanoasis/vim-devicons'
+Plug 'puremourning/vimspector'
+Plug 'sjl/badwolf'
 Plug 'kyazdani42/nvim-web-devicons' " Recommended (for coloured icons)
 Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release/remote', 'do': ':UpdateRemotePlugins' }
 call plug#end()
@@ -89,9 +91,8 @@ nmap <leader>p :put +<cr>
 nmap <leader>mkv :mkview<cr>
 nmap <leader>lv :loadview<cr>
 nmap <leader>v :vsplit ..<cr>
-nmap <leader>tr :vsplit<bar>:terminal ++curwin<cr>
 nmap <leader>r :registers<cr>
-nmap <leader>t :TagbarToggle<cr>
+nmap <leader>t :tabe<cr>
 nmap <leader>u :e!<cr>
 nmap <leader>q :qa!<cr>
 nmap <leader>bn :bnext<cr>
@@ -100,11 +101,6 @@ nmap <leader>mp :MarkdownPreview<cr>
 nmap <leader>mps :MarkdownPreviewStop<cr>
 nmap <leader>ym :set mouse=""<cr>
 nmap <leader>ym :set mouse=a<cr>
-nmap <leader>tn :TestNearest<CR>
-nmap <leader>tf :TestFile<CR>
-nmap <leader>ts :TestSuite<CR>
-nmap <leader>tl :TestLast<CR>
-nmap <leader>tv :TestVisit<CR>
 
 " smart way to move between windows
 map <C-j> <C-w>j
@@ -145,7 +141,7 @@ set guioptions-=L " turn off menu bar
 set backspace=indent,eol,start
 set laststatus=2  " always display the status line
 
-colorscheme default
+colorscheme catppuccin-mocha
 let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 set background=dark
 let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
